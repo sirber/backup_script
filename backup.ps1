@@ -3,11 +3,16 @@ if (-not (Test-Path -Path .\settings.json -PathType Leaf)) {
     exit 1
 }
 
+$platform = [environment]::OSVersion.Platform
+$zip = "zip.exe"
+if ($platform = "Unix") {
+	$zip = "zip"
+}
 $sources = Get-Content .\settings.json -Raw | ConvertFrom-Json 
 
 ForEach ($source in $sources) {
     Write-Host "Compressing $($source.name)..."
-    Compress-Archive -Path $source.path -DestinationPath $source.outputZip -Force
+    & $zip -9r $source.outputZip $source.path
 }
 
 Write-Host "Done!"
