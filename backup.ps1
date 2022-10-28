@@ -18,7 +18,7 @@ Write-Host "Backup (os: ${platform})"
 ForEach ($source in $sources) {
     Write-Host "Compressing $($source.name)..."
     cd "$($source.path)"
-    Invoke-Expression "${zip} -9r '$($source.outputZip)' $outDir"
+    Invoke-Expression "${zip} -$($source.compression)r '$($source.outputZip)' $outDir"
 }
 
 cd "$curDir"

@@ -1,7 +1,8 @@
 [
     {
         "name": "sample",
-        "path": null,
-        "outputZip": null
+        "compression": 9,
+        "path": "C:\\Studf",
+        "outputZip": "C:\\Backup"
     }
 ]
