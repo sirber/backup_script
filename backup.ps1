@@ -4,15 +4,22 @@ if (-not (Test-Path -Path .\settings.json -PathType Leaf)) {
 }
 
 $platform = [environment]::OSVersion.Platform
-$zip = "zip.exe"
-if ($platform = "Unix") {
+$curDir = $pwd
+$zip = "$curDir\\zip.exe"
+$outDir = ".\\"
+if ($platform -eq "Unix") {
 	$zip = "zip"
+    $outDir = "./"
 }
 $sources = Get-Content .\settings.json -Raw | ConvertFrom-Json 
 
+Write-Host "Backup (os: ${platform})"
+
 ForEach ($source in $sources) {
     Write-Host "Compressing $($source.name)..."
-    & $zip -9r $source.outputZip $source.path
+    cd "$($source.path)"
+    Invoke-Expression "${zip} -9r '$($source.outputZip)' $outDir"
 }
 
+cd "$curDir"
 Write-Host "Done!"
